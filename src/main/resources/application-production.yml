@@ -1,0 +1,9 @@
+---
+# -----------
+# production
+# -----------
+spring:
+  profiles: production
+
+logging:
+  config: classpath:logback-production.xml
