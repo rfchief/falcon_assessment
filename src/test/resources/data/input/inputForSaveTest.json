@@ -1,14 +1,18 @@
-{ "request": "/list",
-  "agent": "\"Mozilla/5.0 (Windows NT 6.0) AppleWebKit/5361 (KHTML, like Gecko) Chrome/14.0.861.0 Safari/5361\"",
+{
+  "request": "/apps/cart.jsp?appID=2878",
+  "agent": "\"Mozilla/5.0 (Windows NT 6.1; sl-SI; rv:1.9.1.20) Gecko/2011-11-13 22:09:18 Firefox/15.0\"",
   "auth": "-",
   "ident": "-",
-  "verb": "GET",
-  "message": "133.70.125.23 - - [22/Jul/2017:13:48:02 +0900] \"GET /list HTTP/1.0\" 200 5056 \"http://daniels.net/tag/category/homepage/\" \"Mozilla/5.0 (Windows NT 6.0) AppleWebKit/5361 (KHTML, like Gecko) Chrome/14.0.861.0 Safari/5361\"",
-  "referrer": "\"http://daniels.net/tag/category/homepage/\"",
-  "@timestamp": "2017-07-22T05:46:17.744Z",
+  "verb": "POST",
+  "message": "201.183.248.113 - - [22/Jul/2017:14:07:07 +0900] \"POST /apps/cart.jsp?appID=2878 HTTP/1.0\" 200 5104 \"http://www.smith-smith.com/wp-content/search.asp\" \"Mozilla/5.0 (Windows NT 6.1; sl-SI; rv:1.9.1.20) Gecko/2011-11-13 22:09:18 Firefox/15.0\"",
+  "path": "/Users/sunginpark/Workspace/logstash/apache/access_log1.log",
+  "referrer": "\"http://www.smith-smith.com/wp-content/search.asp\"",
+  "@timestamp": "2017-07-22T05:46:17.747Z",
   "response": "200",
-  "bytes": "5056",
-  "clientip": "133.70.125.23",
+  "bytes": "5104",
+  "clientip": "201.183.248.113",
   "@version": "1",
+  "host": "bagseong-in-ui-MacBook-Pro.local",
   "httpversion": "1.0",
-  "timestamp": "22/Jul/2017:13:48:02 +0900" }
+  "timestamp": "22/Jul/2017:14:07:07 +0900"
+}

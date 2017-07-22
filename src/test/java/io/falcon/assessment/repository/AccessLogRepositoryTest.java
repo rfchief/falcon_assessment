@@ -2,6 +2,7 @@ package io.falcon.assessment.repository;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
@@ -14,6 +15,7 @@ import org.junit.Test;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,7 +31,7 @@ public class AccessLogRepositoryTest {
     public void initialize() throws IOException {
         this.inputFilePrefix = System.getProperty("user.dir") + "/src/test/resources/data/";
         this.repository = new MockAccessLogRepository();
-        this.initialAccessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/input.json");
+        this.initialAccessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/inputForInitilaize.json");
 
         repository.save(initialAccessLogs);
     }
@@ -55,7 +57,7 @@ public class AccessLogRepositoryTest {
     @Test
     public void givenListOfAccessLog_whenSaveAll_thenSaveAllObjectTest() throws IOException {
         //given
-        List<AccessLog> accessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/input.json");
+        List<AccessLog> accessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/inputForInitilaize.json");
         int beforeCounts = repository.countAll();
 
         //when
@@ -108,19 +110,43 @@ public class AccessLogRepositoryTest {
         List<AccessLog> actual = repository.findAllByRequest(request, offset, limit, SortType.ASCENDING);
 
         //then
-        List<AccessLog> expected = getExpectedListBy(new Predicate<AccessLog>() {
-                                                            @Override
-                                                            public boolean apply(@Nullable AccessLog accessLog) {
-                                                                return StringUtils.equals(accessLog.getRequest(), request);
-                                                            }
-                                                        });
+        List<AccessLog> expected = getExpectedListBy(request);
         Assert.assertThat(actual, is(notNullValue()));
         Assert.assertThat(actual.size(), is(expected.size()));
         for (int i = 0; i < actual.size(); i++)
             Assert.assertThat(actual.get(i), is(expected.get(i)));
     }
 
-    private List<AccessLog> getExpectedListBy(Predicate<AccessLog> predicate) {
+    @Test
+    public void givenOffsetAndLimitAndSortAndDate_whenFindAllByDateAfterThan_thenReturnAccessLogsTest() {
+        //given
+        int offset = 0;
+        int limit = 1;
+        SortType sort = SortType.ASCENDING;
+        Date timestamp = Iterables.getFirst(initialAccessLogs, new AccessLog()).getTimestamp();
+
+        //when
+        List<AccessLog> actual = repository.findAllByDateAfterThan(timestamp, offset, limit, sort);
+
+        //then
+        Assert.assertThat(actual, is(notNullValue()));
+        for (AccessLog accessLog : actual) {
+            Date actualTimestamp = accessLog.getTimestamp();
+            Assert.assertThat(isValidTimestamp(timestamp, actualTimestamp), is(true));
+        }
+    }
+
+    private boolean isValidTimestamp(Date timestamp, Date actualTimestamp) {
+        return actualTimestamp.equals(timestamp) || actualTimestamp.after(timestamp);
+    }
+
+    private List<AccessLog> getExpectedListBy(String request) {
+        Predicate<AccessLog> predicate = new Predicate<AccessLog>() {
+            @Override
+            public boolean apply(@Nullable AccessLog accessLog) {
+                return StringUtils.equals(accessLog.getRequest(), request);
+            }
+        };
         return Lists.newArrayList(Collections2.filter(initialAccessLogs, predicate));
     }
 }
