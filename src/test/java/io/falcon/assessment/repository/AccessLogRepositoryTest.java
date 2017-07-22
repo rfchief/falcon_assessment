@@ -123,20 +123,20 @@ public class AccessLogRepositoryTest {
         int offset = 0;
         int limit = 1;
         SortType sort = SortType.ASCENDING;
-        Date timestamp = Iterables.getFirst(initialAccessLogs, new AccessLog()).getTimestamp();
+        Date logDateTime = Iterables.getFirst(initialAccessLogs, new AccessLog()).getLogDateTime();
 
         //when
-        List<AccessLog> actual = repository.findAllByDateAfterThan(timestamp, offset, limit, sort);
+        List<AccessLog> actual = repository.findAllByDateAfterThan(logDateTime, offset, limit, sort);
 
         //then
         Assert.assertThat(actual, is(notNullValue()));
         for (AccessLog accessLog : actual) {
-            Date actualTimestamp = accessLog.getTimestamp();
-            Assert.assertThat(isValidTimestamp(timestamp, actualTimestamp), is(true));
+            Date actualLogDateTime = accessLog.getLogDateTime();
+            Assert.assertThat(isValidLogDateTime(logDateTime, actualLogDateTime), is(true));
         }
     }
 
-    private boolean isValidTimestamp(Date timestamp, Date actualTimestamp) {
+    private boolean isValidLogDateTime(Date timestamp, Date actualTimestamp) {
         return actualTimestamp.equals(timestamp) || actualTimestamp.after(timestamp);
     }
 

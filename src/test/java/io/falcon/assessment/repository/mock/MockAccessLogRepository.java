@@ -66,8 +66,8 @@ public class MockAccessLogRepository implements AccessLogRepository {
         List<AccessLog> temp = getSubList(offset, sort);
 
         for(AccessLog accessLog : temp) {
-            if(DateUtils.isSameDay(accessLog.getTimestamp(), date)
-                    || accessLog.getTimestamp().after(date))
+            if(DateUtils.isSameDay(accessLog.getLogDateTime(), date)
+                    || accessLog.getLogDateTime().after(date))
                 result.add(accessLog);
 
             if(result.size() == limit)

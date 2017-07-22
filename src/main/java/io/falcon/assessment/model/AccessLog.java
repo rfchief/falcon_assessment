@@ -1,6 +1,7 @@
 package io.falcon.assessment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,7 +15,8 @@ public class AccessLog {
     private String response;
     private String referrer;
     private String message;
-    private Date timestamp;
+    @JsonProperty("timestamp")
+    private Date logDateTime;
 
     @Override
     public String toString() {
@@ -23,7 +25,7 @@ public class AccessLog {
                 + ", Response : " + response
                 + ", Referrer : " + referrer
                 + ", Message : " + message
-                + ", Timestamp : " + timestamp;
+                + ", LogDateTime : " + logDateTime;
     }
 
 }
