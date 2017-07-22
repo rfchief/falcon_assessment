@@ -1,13 +1,18 @@
 package io.falcon.assessment.repository;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.repository.mock.MockAccessLogRepository;
 import io.falcon.assessment.util.TestDataFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
@@ -75,5 +80,47 @@ public class AccessLogRepositoryTest {
         Assert.assertThat(actual, is(notNullValue()));
         Assert.assertThat(actual.size(), is(limit));
         Assert.assertThat(actual.get(0), is(expected));
+    }
+
+    @Test
+    public void givenOffsetAndLimitAndSortAndEmptyRequest_whenFindAllByRequest_thenReturnEmptyListTest() {
+        //given
+        int offset = 0;
+        int limit = 10;
+        String emptyRequest = StringUtils.EMPTY;
+
+        //when
+        List<AccessLog> actual = repository.findAllByRequest(emptyRequest, offset, limit, SortType.ASCENDING);
+
+        //then
+        Assert.assertThat(actual, is(notNullValue()));
+        Assert.assertThat(actual.size(), is(0));
+    }
+
+    @Test
+    public void givenOffsetAndLimitAndSortAndRequest_whenFindAllByRequest_thenReturnEmptyListTest() {
+        //given
+        int offset = 0;
+        int limit = 10;
+        String request = "/posts/posts/explore";
+
+        //when
+        List<AccessLog> actual = repository.findAllByRequest(request, offset, limit, SortType.ASCENDING);
+
+        //then
+        List<AccessLog> expected = getExpectedListBy(new Predicate<AccessLog>() {
+                                                            @Override
+                                                            public boolean apply(@Nullable AccessLog accessLog) {
+                                                                return StringUtils.equals(accessLog.getRequest(), request);
+                                                            }
+                                                        });
+        Assert.assertThat(actual, is(notNullValue()));
+        Assert.assertThat(actual.size(), is(expected.size()));
+        for (int i = 0; i < actual.size(); i++)
+            Assert.assertThat(actual.get(i), is(expected.get(i)));
+    }
+
+    private List<AccessLog> getExpectedListBy(Predicate<AccessLog> predicate) {
+        return Lists.newArrayList(Collections2.filter(initialAccessLogs, predicate));
     }
 }

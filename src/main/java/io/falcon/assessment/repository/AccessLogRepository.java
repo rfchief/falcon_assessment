@@ -19,4 +19,9 @@ public interface AccessLogRepository {
     List<AccessLog> findAll(@Param("offset") int offset,
                             @Param("limit") int limit,
                             @Param("sort") SortType sort);
+
+    List<AccessLog> findAllByRequest(@Param("request") String request,
+                                     @Param("offset") int offset,
+                                     @Param("limit") int limit,
+                                     @Param("sort") SortType ascending);
 }
