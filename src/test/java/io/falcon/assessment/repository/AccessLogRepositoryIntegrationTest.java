@@ -1,5 +1,6 @@
 package io.falcon.assessment.repository;
 
+import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.util.TestDataFactory;
 import org.junit.After;
@@ -8,14 +9,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@Profile("dev")
+@ActiveProfiles("dev")
 @SpringBootTest
 public class AccessLogRepositoryIntegrationTest {
 

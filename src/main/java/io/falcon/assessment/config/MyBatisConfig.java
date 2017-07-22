@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 public class MyBatisConfig {
     @Bean(name = "falconDataSource", destroyMethod = "close")
     @Qualifier("falconDataSource")
-    @ConfigurationProperties(prefix="datasource.falcon")
+    @ConfigurationProperties(prefix="datasource")
     public DataSource falconDataSource() {
         return DataSourceBuilder.create().build();
     }

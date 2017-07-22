@@ -14,7 +14,7 @@ import java.util.Locale;
 public class TestDataFactory {
 
     private static ObjectMapper objectMapper = new ObjectMapper()
-                                                .setDateFormat(new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z", Locale.US));;
+                                                .setDateFormat(new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z", Locale.US));
     private static FileReader fileReader = new FileReader();
 
     public static AccessLog getAccessLog(String filePath) throws IOException {
