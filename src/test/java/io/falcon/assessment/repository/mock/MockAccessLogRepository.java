@@ -1,6 +1,7 @@
 package io.falcon.assessment.repository.mock;
 
 import com.google.common.collect.Lists;
+import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.repository.AccessLogRepository;
 import org.springframework.util.CollectionUtils;
@@ -33,5 +34,12 @@ public class MockAccessLogRepository implements AccessLogRepository {
         return null;
     }
 
+    @Override
+    public List<AccessLog> findAll(int offset, int limit, SortType sort) {
+        if(sort == SortType.ASCENDING)
+            return repository.subList(offset, limit);
+
+        return Lists.reverse(repository).subList(offset, limit);
+    }
 
 }

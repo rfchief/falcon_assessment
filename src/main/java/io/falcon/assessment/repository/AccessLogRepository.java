@@ -1,5 +1,6 @@
 package io.falcon.assessment.repository;
 
+import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,8 @@ public interface AccessLogRepository {
     Integer save(@Param("accessLog") AccessLog inputAccessLog);
 
     Integer save(@Param("accessLogs") List<AccessLog> accessLogs);
+
+    List<AccessLog> findAll(@Param("offset") int offset,
+                            @Param("limit") int limit,
+                            @Param("sort") SortType sort);
 }
