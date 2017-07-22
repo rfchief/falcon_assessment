@@ -1,5 +1,4 @@
-{
-  "request": "/list",
+{ "request": "/list",
   "agent": "\"Mozilla/5.0 (Windows NT 6.0) AppleWebKit/5361 (KHTML, like Gecko) Chrome/14.0.861.0 Safari/5361\"",
   "auth": "-",
   "ident": "-",
@@ -12,5 +11,4 @@
   "clientip": "133.70.125.23",
   "@version": "1",
   "httpversion": "1.0",
-  "timestamp": "22/Jul/2017:13:48:02 +0900"
-}
+  "timestamp": "22/Jul/2017:13:48:02 +0900" }
