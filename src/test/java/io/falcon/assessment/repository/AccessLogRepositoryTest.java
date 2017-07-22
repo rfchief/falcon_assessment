@@ -31,9 +31,9 @@ public class AccessLogRepositoryTest {
     public void initialize() throws IOException {
         this.inputFilePrefix = System.getProperty("user.dir") + "/src/test/resources/data/";
         this.repository = new MockAccessLogRepository();
-        this.initialAccessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/inputForInitilaize.json");
+        this.initialAccessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/inputForInitialize.json");
 
-        repository.save(initialAccessLogs);
+        repository.insertAll(initialAccessLogs);
     }
 
     @Test
@@ -42,26 +42,26 @@ public class AccessLogRepositoryTest {
     }
 
     @Test
-    public void givenAccessLogObject_whenSave_thenSavedObjectTest() throws IOException {
+    public void givenAccessLogObject_whenInsert_thenSavedObjectTest() throws IOException {
         //given
         AccessLog inputAccessLog = TestDataFactory.getAccessLog(inputFilePrefix + "input/inputForSaveTest.json");
         int beforeCounts = repository.countAll();
 
         //when
-        repository.save(inputAccessLog);
+        repository.insert(inputAccessLog);
 
         //then
         Assert.assertThat(repository.countAll(), is(beforeCounts + 1));
     }
 
     @Test
-    public void givenListOfAccessLog_whenSaveAll_thenSaveAllObjectTest() throws IOException {
+    public void givenListOfAccessLog_whenInsertAll_thenSaveAllObjectTest() throws IOException {
         //given
-        List<AccessLog> accessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/inputForInitilaize.json");
+        List<AccessLog> accessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/inputForInitialize.json");
         int beforeCounts = repository.countAll();
 
         //when
-        repository.save(accessLogs);
+        repository.insertAll(accessLogs);
 
         //then
         Assert.assertThat(repository.countAll(), is(beforeCounts + accessLogs.size()));

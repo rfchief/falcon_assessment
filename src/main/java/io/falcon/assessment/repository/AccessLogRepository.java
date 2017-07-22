@@ -13,9 +13,9 @@ public interface AccessLogRepository {
 
     int countAll();
 
-    Integer save(@Param("accessLog") AccessLog inputAccessLog);
+    Integer insert(@Param("accessLog") AccessLog inputAccessLog);
 
-    Integer save(@Param("accessLogs") List<AccessLog> accessLogs);
+    Integer insertAll(@Param("accessLogs") List<AccessLog> accessLogs);
 
     List<AccessLog> findAll(@Param("offset") int offset,
                             @Param("limit") int limit,
@@ -30,4 +30,6 @@ public interface AccessLogRepository {
                                            @Param("offset") int offset,
                                            @Param("limit") int limit,
                                            @Param("sort") SortType sort);
+
+    Integer removeAll();
 }

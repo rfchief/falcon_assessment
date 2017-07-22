@@ -1,4 +1,4 @@
-package io.falcon.assessment.model;
+package io.falcon.assessment.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,9 +8,8 @@ import java.util.Date;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccessLog {
+public class AccessLogDTO {
 
-    private int seq;
     private String request;
     @JsonProperty("verb")
     private String method;
@@ -19,18 +18,14 @@ public class AccessLog {
     private String message;
     @JsonProperty("timestamp")
     private Date logDateTime;
-    private Date insertedAt;
 
     @Override
     public String toString() {
-        return "Seq : " + seq
-                + ", Request : " + request
+        return "Request : " + request
                 + ", Method : " + method
                 + ", Response : " + response
                 + ", Referrer : " + referrer
                 + ", Message : " + message
-                + ", LogDateTime : " + logDateTime
-                + ", InsertedAt : " + insertedAt;
+                + ", LogDateTime : " + logDateTime;
     }
-
 }

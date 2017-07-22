@@ -21,7 +21,7 @@ public class MockAccessLogRepository implements AccessLogRepository {
     }
 
     @Override
-    public Integer save(AccessLog inputAccessLog) {
+    public Integer insert(AccessLog inputAccessLog) {
         if(inputAccessLog != null)
             repository.add(inputAccessLog);
 
@@ -29,7 +29,7 @@ public class MockAccessLogRepository implements AccessLogRepository {
     }
 
     @Override
-    public Integer save(List<AccessLog> accessLogs) {
+    public Integer insertAll(List<AccessLog> accessLogs) {
         if(CollectionUtils.isEmpty(accessLogs))
             return 0;
 
@@ -75,6 +75,14 @@ public class MockAccessLogRepository implements AccessLogRepository {
         }
 
         return result;
+    }
+
+    @Override
+    public Integer removeAll() {
+        int size = repository.size();
+        repository.clear();
+
+        return size;
     }
 
     private List<AccessLog> getSubList(int offset, SortType sort) {
