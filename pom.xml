@@ -27,6 +27,7 @@
         <apache.commons.io.version>2.5</apache.commons.io.version>
         <joda-time.version>2.9.9</joda-time.version>
         <mybatis.version>1.3.0</mybatis.version>
+        <mariadb.version>2.0.3</mariadb.version>
 
         <unit-tests.skip>false</unit-tests.skip>
         <integration-tests.skip>true</integration-tests.skip>
@@ -89,6 +90,11 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>${joda-time.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
         </dependency>
     </dependencies>
 
