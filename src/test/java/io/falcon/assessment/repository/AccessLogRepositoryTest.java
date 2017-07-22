@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -17,9 +18,10 @@ public class AccessLogRepositoryTest {
     private String inputFilePrefix;
 
     @Before
-    public void initialize() {
+    public void initialize() throws IOException {
         this.inputFilePrefix = System.getProperty("user.dir") + "/src/test/resources/data/";
         this.repository = new MockAccessLogRepository();
+        repository.save(TestDataFactory.getAccessLogs(inputFilePrefix + "/input/input.json"));
     }
 
     @Test
@@ -30,8 +32,7 @@ public class AccessLogRepositoryTest {
     @Test
     public void givenAccessLogObject_whenSave_thenSavedObjectTest() throws IOException {
         //given
-        String inputFilePath = inputFilePrefix + "input/inputForSaveTest.json";
-        AccessLog inputAccessLog = TestDataFactory.getAccessLog(inputFilePath);
+        AccessLog inputAccessLog = TestDataFactory.getAccessLog(inputFilePrefix + "input/inputForSaveTest.json");
         int beforeCounts = repository.countAll();
 
         //when
@@ -39,6 +40,19 @@ public class AccessLogRepositoryTest {
 
         //then
         Assert.assertThat(repository.countAll(), is(beforeCounts + 1));
+    }
+
+    @Test
+    public void givenListOfAccessLog_whenSaveAll_thenSaveAllObjectTest() throws IOException {
+        //given
+        List<AccessLog> accessLogs = TestDataFactory.getAccessLogs(inputFilePrefix + "/input/input.json");
+        int beforeCounts = repository.countAll();
+
+        //when
+        repository.save(accessLogs);
+
+        //then
+        Assert.assertThat(repository.countAll(), is(beforeCounts + accessLogs.size()));
     }
 
 }

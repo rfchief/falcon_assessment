@@ -4,10 +4,14 @@ import io.falcon.assessment.model.AccessLog;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AccessLogRepository {
 
     int countAll();
 
-    void save(@Param("accessLog") AccessLog inputAccessLog);
+    Integer save(@Param("accessLog") AccessLog inputAccessLog);
+
+    Integer save(@Param("accessLogs") List<AccessLog> accessLogs);
 }

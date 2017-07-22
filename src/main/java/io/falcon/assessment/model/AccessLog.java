@@ -16,4 +16,14 @@ public class AccessLog {
     private String message;
     private Date timestamp;
 
+    @Override
+    public String toString() {
+        return "Request : " + request
+                + ", Method : " + method
+                + ", Response : " + response
+                + ", Referrer : " + referrer
+                + ", Message : " + message
+                + ", Timestamp : " + timestamp;
+    }
+
 }
