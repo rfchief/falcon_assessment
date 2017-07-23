@@ -13,7 +13,7 @@ public interface AccessLogRepository {
 
     int countAll();
 
-    Integer insert(@Param("accessLog") AccessLog inputAccessLog);
+    Integer insert(@Param("accessLog") AccessLog accessLog);
 
     Integer insertAll(@Param("accessLogs") List<AccessLog> accessLogs);
 

@@ -20,14 +20,17 @@ public class TestDataFactory {
     private static FileReader fileReader = new FileReader();
 
     public static AccessLog getAccessLog(String filePath) throws IOException {
-        String jsonString = fileReader.getFromStringFile(filePath);
-
-        if(isValid(jsonString)) {
-            AccessLogDTO accessLogDto = objectMapper.readValue(jsonString, AccessLogDTO.class);
+        if(isValid(filePath)) {
+            AccessLogDTO accessLogDto = getAccessLogDTO(filePath);
             return convertDtoToAccessLog(accessLogDto, 1);
         }
 
         return null;
+    }
+
+    public static AccessLogDTO getAccessLogDTO(String filePath) throws IOException {
+        String jsonString = fileReader.getFromStringFile(filePath);
+        return objectMapper.readValue(jsonString, AccessLogDTO.class);
     }
 
     private static AccessLog convertDtoToAccessLog(AccessLogDTO accessLogDto, int index) {
@@ -71,4 +74,5 @@ public class TestDataFactory {
     public static DateTime getLogDateTime(String filePath) {
         return DateTime.parse(fileReader.getFromStringFile(filePath), DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
     }
+
 }

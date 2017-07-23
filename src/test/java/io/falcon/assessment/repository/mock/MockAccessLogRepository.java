@@ -21,9 +21,9 @@ public class MockAccessLogRepository implements AccessLogRepository {
     }
 
     @Override
-    public Integer insert(AccessLog inputAccessLog) {
-        if(inputAccessLog != null)
-            repository.add(inputAccessLog);
+    public Integer insert(AccessLog accessLog) {
+        if(accessLog != null)
+            repository.add(accessLog);
 
         return null;
     }

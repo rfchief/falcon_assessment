@@ -1,6 +1,7 @@
 package io.falcon.assessment.model;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
@@ -16,6 +17,29 @@ public class AccessLog {
     private DateTime logDateTime;
     private DateTime insertedAt;
 
+    public boolean isValid() {
+        if(isEmpty(response))
+            return false;
+
+        if(isEmpty(referrer))
+            return false;
+
+        if(isEmpty(message))
+            return false;
+
+        if(isEmpty(method))
+            return false;
+
+        if(logDateTime == null)
+            return false;
+
+        return true;
+    }
+
+    private boolean isEmpty(String str) {
+        return StringUtils.isEmpty(str);
+    }
+
     @Override
     public String toString() {
         return  "Request : " + request
@@ -25,5 +49,4 @@ public class AccessLog {
                 + ", Message : " + message
                 + ", LogDateTime : " + logDateTime;
     }
-
 }

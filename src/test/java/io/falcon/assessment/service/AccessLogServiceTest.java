@@ -2,6 +2,7 @@ package io.falcon.assessment.service;
 
 import io.falcon.assessment.component.AccessLogOutputDtoGenerator;
 import io.falcon.assessment.enums.SortType;
+import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.model.dto.AccessLogDTO;
 import io.falcon.assessment.model.dto.AccessLogOutputDTO;
 import io.falcon.assessment.repository.AccessLogRepository;
@@ -42,7 +43,6 @@ public class AccessLogServiceTest {
     public void doNothingTest() {
         System.out.printf("Everything is OK!!!");
     }
-
 
     @Test
     public void givenEmptyRequestAndPageParameter_whenGetAccessLogsByRequest_thenReturnEmptyListTest() {
@@ -88,7 +88,7 @@ public class AccessLogServiceTest {
         SortType sortType = SortType.ASCENDING;
 
         //when
-        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(logDateTime, offset, size, sortType);
+        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(logDateTime.toDate(), offset, size, sortType);
 
         //then
         Assert.assertThat(actual, is(notNullValue()));
@@ -110,6 +110,26 @@ public class AccessLogServiceTest {
         //then
         Assert.assertThat(actual, is(notNullValue()));
         Assert.assertThat(actual.getNextUrl(), is(nullValue()));
+    }
+
+    @Test
+    public void givenAccessLogDTO_whenSaveAccessLog_thenSaveAccessLogTest() throws IOException {
+        //given
+        AccessLogDTO inputAccessLog = TestDataFactory.getAccessLogDTO(System.getProperty("user.dir") + "/src/test/resources/data/input/inputForSaveTest.json");
+
+        //when
+        service.saveAccessLog(inputAccessLog);
+
+        //then
+        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(inputAccessLog.getLogDateTime(), 0, 1, SortType.ASCENDING);
+        Assert.assertThat(actual, is(notNullValue()));
+        for (AccessLogDTO dto : actual.getAccessLogs()) {
+            Assert.assertThat(dto.getRequest(), is(inputAccessLog.getRequest()));
+            Assert.assertThat(dto.getResponse(), is(inputAccessLog.getResponse()));
+            Assert.assertThat(dto.getMethod(), is(inputAccessLog.getMethod()));
+            Assert.assertThat(dto.getMessage(), is(inputAccessLog.getMessage()));
+            Assert.assertThat(dto.getLogDateTime(), is(inputAccessLog.getLogDateTime()));
+        }
     }
 
     private boolean isValid(Date expected, Date actual) {

@@ -1,15 +1,19 @@
 package io.falcon.assessment.service;
 
+import com.google.common.collect.Lists;
 import io.falcon.assessment.component.AccessLogOutputDtoGenerator;
 import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
+import io.falcon.assessment.model.dto.AccessLogDTO;
 import io.falcon.assessment.model.dto.AccessLogOutputDTO;
 import io.falcon.assessment.repository.AccessLogRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,12 +40,12 @@ public class AccessLogService {
         return accessLogOutputDtoGenerator.generateWith(accessLogs, size);
     }
 
-    public AccessLogOutputDTO getAccessLogsByLogDateTime(DateTime logDateTime,
+    public AccessLogOutputDTO getAccessLogsByLogDateTime(Date logDateTime,
                                                          int offset,
                                                          int size,
                                                          SortType sortType) {
 
-        List<AccessLog> accessLogs = accessLogRepository.findAllByDateAfterThan(logDateTime, offset, size + 1, sortType);
+        List<AccessLog> accessLogs = accessLogRepository.findAllByDateAfterThan(new DateTime(logDateTime), offset, size + 1, sortType);
         return accessLogOutputDtoGenerator.generateWith(accessLogs, size);
     }
 
@@ -52,4 +56,48 @@ public class AccessLogService {
         List<AccessLog> accessLogs = accessLogRepository.findAllBySeqAfterThan(seq, offset, size + 1);
         return accessLogOutputDtoGenerator.generateWith(accessLogs, size);
     }
+
+    public void saveAccessLog(AccessLogDTO accessLogDTO) {
+        AccessLog accessLog = convertDtoToAccessLog(accessLogDTO);
+
+        if(accessLog.isValid())
+            accessLogRepository.insert(accessLog);
+    }
+
+    public void saveAccessLogs(List<AccessLogDTO> accessLogDTOList) {
+        List<AccessLog> accessLogs = convertDtoToAccessLogs(accessLogDTOList);
+
+        if(!CollectionUtils.isEmpty(accessLogs))
+            accessLogRepository.insertAll(accessLogs);
+    }
+
+    public void removeAll() {
+        accessLogRepository.deleteAll();
+    }
+
+    private List<AccessLog> convertDtoToAccessLogs(List<AccessLogDTO> accessLogDTOList) {
+        List<AccessLog> accessLogs = Lists.newArrayList();
+        for (AccessLogDTO accessLogDTO : accessLogDTOList) {
+            AccessLog accessLog = convertDtoToAccessLog(accessLogDTO);
+            if(!accessLog.isValid())
+                throw new IllegalArgumentException();
+
+            accessLogs.add(accessLog);
+        }
+
+        return accessLogs;
+    }
+
+    private AccessLog convertDtoToAccessLog(AccessLogDTO accessLogDTO) {
+        AccessLog accessLog = new AccessLog();
+        accessLog.setRequest(accessLogDTO.getRequest());
+        accessLog.setReferrer(accessLogDTO.getReferrer());
+        accessLog.setResponse(accessLogDTO.getResponse());
+        accessLog.setMethod(accessLogDTO.getMethod());
+        accessLog.setMessage(accessLogDTO.getMessage());
+        accessLog.setLogDateTime(new DateTime(accessLogDTO.getLogDateTime()));
+
+        return accessLog;
+    }
+
 }
