@@ -1,7 +1,6 @@
 package io.falcon.assessment.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Iterables;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
