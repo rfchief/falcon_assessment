@@ -5,10 +5,9 @@ import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.repository.AccessLogRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
+import org.joda.time.LocalDateTime;
 import java.util.List;
 
 public class MockAccessLogRepository implements AccessLogRepository {
@@ -61,13 +60,13 @@ public class MockAccessLogRepository implements AccessLogRepository {
     }
 
     @Override
-    public List<AccessLog> findAllByDateAfterThan(Date date, int offset, int limit, SortType sort) {
+    public List<AccessLog> findAllByDateAfterThan(LocalDateTime date, int offset, int limit, SortType sort) {
         List<AccessLog> result = Lists.newArrayList();
         List<AccessLog> temp = getSubList(offset, sort);
 
         for(AccessLog accessLog : temp) {
-            if(DateUtils.isSameDay(accessLog.getLogDateTime(), date)
-                    || accessLog.getLogDateTime().after(date))
+            if(accessLog.getLogDateTime().isEqual(date)
+                    || accessLog.getLogDateTime().isAfter(date))
                 result.add(accessLog);
 
             if(result.size() == limit)

@@ -1,6 +1,5 @@
 package io.falcon.assessment.repository;
 
-import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.util.TestDataFactory;
 import org.junit.After;

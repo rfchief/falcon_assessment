@@ -13,17 +13,14 @@
                message,
                log_datetime)
         VALUES
-
         <foreach collection="accessLogs" item="element" index="index" open="(" separator="),("  close=")">
-            <![CDATA['${element.request}',
+            <![CDATA['3{element.request}',
                      '${element.method}',
                      '${element.response}',
                      '${element.referrer}',
                      '${element.message}',
-                     '${element.strLogDateTime}'
-        ]]>
+                     '${element.logDateTime}']]>
         </foreach>
-
     </insert>
 
     <select id="findAll" resultType="io.falcon.assessment.model.AccessLog" >

@@ -9,13 +9,13 @@ import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.repository.mock.MockAccessLogRepository;
 import io.falcon.assessment.util.TestDataFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -123,7 +123,7 @@ public class AccessLogRepositoryTest {
         int offset = 0;
         int limit = 1;
         SortType sort = SortType.ASCENDING;
-        Date logDateTime = Iterables.getFirst(initialAccessLogs, new AccessLog()).getLogDateTime();
+        LocalDateTime logDateTime = Iterables.getFirst(initialAccessLogs, new AccessLog()).getLogDateTime();
 
         //when
         List<AccessLog> actual = repository.findAllByDateAfterThan(logDateTime, offset, limit, sort);
@@ -131,13 +131,13 @@ public class AccessLogRepositoryTest {
         //then
         Assert.assertThat(actual, is(notNullValue()));
         for (AccessLog accessLog : actual) {
-            Date actualLogDateTime = accessLog.getLogDateTime();
+            LocalDateTime actualLogDateTime = accessLog.getLogDateTime();
             Assert.assertThat(isValidLogDateTime(logDateTime, actualLogDateTime), is(true));
         }
     }
 
-    private boolean isValidLogDateTime(Date timestamp, Date actualTimestamp) {
-        return actualTimestamp.equals(timestamp) || actualTimestamp.after(timestamp);
+    private boolean isValidLogDateTime(LocalDateTime timestamp, LocalDateTime actualTimestamp) {
+        return actualTimestamp.equals(timestamp) || actualTimestamp.isAfter(timestamp);
     }
 
     private List<AccessLog> getExpectedListBy(String request) {

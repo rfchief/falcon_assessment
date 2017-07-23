@@ -5,7 +5,7 @@ import io.falcon.assessment.model.AccessLog;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import org.joda.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -26,7 +26,7 @@ public interface AccessLogRepository {
                                      @Param("limit") int limit,
                                      @Param("sort") SortType ascending);
 
-    List<AccessLog> findAllByDateAfterThan(@Param("date") Date date,
+    List<AccessLog> findAllByDateAfterThan(@Param("date") LocalDateTime date,
                                            @Param("offset") int offset,
                                            @Param("limit") int limit,
                                            @Param("sort") SortType sort);

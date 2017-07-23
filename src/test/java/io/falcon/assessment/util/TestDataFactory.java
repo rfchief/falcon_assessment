@@ -1,10 +1,12 @@
 package io.falcon.assessment.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import io.falcon.assessment.model.AccessLog;
+import io.falcon.assessment.model.dto.AccessLogDTO;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -20,17 +22,38 @@ public class TestDataFactory {
     public static AccessLog getAccessLog(String filePath) throws IOException {
         String jsonString = fileReader.getFromStringFile(filePath);
 
-        if(isValid(jsonString))
-            return objectMapper.readValue(jsonString, AccessLog.class);
+        if(isValid(jsonString)) {
+            AccessLogDTO accessLogDto = objectMapper.readValue(jsonString, AccessLogDTO.class);
+            return convertDtoToAccessLog(accessLogDto);
+        }
 
         return null;
+    }
+
+    private static AccessLog convertDtoToAccessLog(AccessLogDTO accessLogDto) {
+        AccessLog accessLog = new AccessLog();
+        accessLog.setRequest(accessLogDto.getRequest());
+        accessLog.setResponse(accessLogDto.getResponse());
+        accessLog.setMethod(accessLogDto.getMethod());
+        accessLog.setReferrer(accessLogDto.getReferrer());
+        accessLog.setMessage(accessLogDto.getMessage());
+        accessLog.setLogDateTime(new DateTime(accessLogDto.getLogDateTime()).toLocalDateTime());
+        accessLog.setInsertedAt(new LocalDateTime());
+
+        return accessLog;
     }
 
     public static List<AccessLog> getAccessLogs(String filePath) throws IOException {
         String jsonString = fileReader.getFromStringFile(filePath);
 
-        if(isValid(jsonString))
-            return Lists.newArrayList(objectMapper.readValue(jsonString, AccessLog[].class));
+        if(isValid(jsonString)) {
+            AccessLogDTO[] elements = objectMapper.readValue(jsonString, AccessLogDTO[].class);
+            List<AccessLog> accessLogs = Lists.newArrayList();
+            for (AccessLogDTO element : elements)
+                accessLogs.add(convertDtoToAccessLog(element));
+
+            return accessLogs;
+        }
 
         return null;
     }

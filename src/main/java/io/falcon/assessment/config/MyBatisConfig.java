@@ -39,6 +39,7 @@ public class MyBatisConfig {
         sqlSessionFactory.setDataSource(falconDataSource);
         sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mybatis/*.xml"));
         sqlSessionFactory.setTypeAliasesPackage("io.falcon.assessment.model");
+
         return sqlSessionFactory.getObject();
     }
 
