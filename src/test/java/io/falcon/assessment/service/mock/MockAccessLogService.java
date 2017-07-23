@@ -7,4 +7,5 @@ public class MockAccessLogService extends AccessLogService {
     public MockAccessLogService(AccessLogRepository accessLogRepository) {
         super(accessLogRepository);
     }
+
 }
