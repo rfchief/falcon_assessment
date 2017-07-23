@@ -1,5 +1,6 @@
 package io.falcon.assessment.service;
 
+import io.falcon.assessment.component.AccessLogOutputDtoGenerator;
 import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.dto.AccessLogDTO;
 import io.falcon.assessment.model.dto.AccessLogOutputDTO;
@@ -24,7 +25,7 @@ public class AccessLogServiceTest {
     @Before
     public void setup() throws IOException {
         AccessLogRepository accessLogRepository = createAndInitializeMockRepository();
-        this.service = new MockAccessLogService(accessLogRepository);
+        this.service = new MockAccessLogService(accessLogRepository, new AccessLogOutputDtoGenerator("localhost", "8080"));
     }
 
     private MockAccessLogRepository createAndInitializeMockRepository() throws IOException {
