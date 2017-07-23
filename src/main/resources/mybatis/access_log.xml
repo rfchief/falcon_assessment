@@ -34,6 +34,25 @@
         </foreach>
     </insert>
 
+    <insert id="insert" parameterType="io.falcon.assessment.model.AccessLog">
+        INSERT
+          INTO falcon.access_log (
+               request,
+               method,
+               response,
+               referrer,
+               message,
+               log_datetime)
+        VALUES (
+            #{accessLog.request, jdbcType=VARCHAR},
+            #{accessLog.method, jdbcType=VARCHAR},
+            #{accessLog.response, jdbcType=VARCHAR},
+            #{accessLog.referrer, jdbcType=VARCHAR},
+            #{accessLog.message, jdbcType=VARCHAR},
+            #{accessLog.logDateTime}
+        )
+    </insert>
+
     <select id="findAll" resultMap="accessLog" >
         SELECT seq
              , request
@@ -49,7 +68,55 @@
          LIMIT #{offset}, #{limit}
     </select>
 
-    <delete id="removeAll">
+    <select id="findAllByRequest" resultMap="accessLog">
+        SELECT seq
+             , request
+             , method
+             , response
+             , referrer
+             , message
+             , log_datetime
+             , inserted_at
+          FROM falcon.access_log
+         WHERE request = #{request}
+         ORDER
+            BY seq ${sort.sortType}
+         LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findAllByDateAfterThan" resultMap="accessLog">
+        SELECT seq
+             , request
+             , method
+             , response
+             , referrer
+             , message
+             , log_datetime
+             , inserted_at
+          FROM falcon.access_log
+         WHERE log_datetime >= #{date}
+         ORDER
+            BY seq ${sort.sortType}
+         LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findAllBySeqAfterThan" resultMap="accessLog">
+        SELECT seq
+             , request
+             , method
+             , response
+             , referrer
+             , message
+             , log_datetime
+             , inserted_at
+          FROM falcon.access_log
+         WHERE seq >= #{seq}
+         ORDER
+            BY seq ASC
+         LIMIT #{offset}, #{limit}
+    </select>
+
+    <delete id="deleteAll">
         TRUNCATE
            TABLE falcon.access_log
     </delete>

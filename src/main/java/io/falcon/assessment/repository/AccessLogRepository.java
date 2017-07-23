@@ -31,5 +31,11 @@ public interface AccessLogRepository {
                                            @Param("limit") int limit,
                                            @Param("sort") SortType sort);
 
-    Integer removeAll();
+    List<AccessLog> findAllBySeqAfterThan(@Param("seq") int seq,
+                                          @Param("offset") int offset,
+                                          @Param("limit") int limit);
+
+    Integer deleteAll();
+
+
 }

@@ -5,6 +5,7 @@ import io.falcon.assessment.enums.SortType;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.repository.AccessLogRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
 import org.springframework.util.CollectionUtils;
 
@@ -77,11 +78,27 @@ public class MockAccessLogRepository implements AccessLogRepository {
     }
 
     @Override
-    public Integer removeAll() {
+    public Integer deleteAll() {
         int size = repository.size();
         repository.clear();
 
         return size;
+    }
+
+    @Override
+    public List<AccessLog> findAllBySeqAfterThan(int seq, int offset, int limit) {
+        List<AccessLog> result = Lists.newArrayList();
+        List<AccessLog> temp = getSubList(offset, SortType.ASCENDING);
+
+        for(AccessLog accessLog : temp) {
+            if(accessLog.getSeq() >= seq)
+                result.add(accessLog);
+
+            if(result.size() == limit)
+                return result;
+        }
+
+        return result;
     }
 
     private List<AccessLog> getSubList(int offset, SortType sort) {
