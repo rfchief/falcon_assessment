@@ -7,8 +7,6 @@ import com.google.common.collect.Lists;
 import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.model.dto.AccessLogDTO;
 import io.falcon.assessment.model.dto.AccessLogOutputDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
@@ -17,24 +15,14 @@ import java.util.List;
 @Component
 public class AccessLogOutputDtoGenerator {
 
-    private final String serverHost;
-    private final String serverPort;
-
-    @Autowired
-    public AccessLogOutputDtoGenerator(@Value("${server.host}") String serverHost,
-                                       @Value("${server.port}") String serverPort) {
-        this.serverHost = serverHost;
-        this.serverPort = serverPort;
-    }
-
-    public AccessLogOutputDTO generateWith(List<AccessLog> accessLogs, int expectedSize) {
+    public AccessLogOutputDTO generateWith(List<AccessLog> accessLogs, int expectedSize, String requestUrl) {
         int nextKey = 0;
         if(accessLogs.size() > expectedSize) {
             nextKey = Iterables.getLast(accessLogs).getSeq();
             accessLogs.remove(expectedSize);
         }
 
-        return new AccessLogOutputDTO(convertAccessLogsToDto(accessLogs), expectedSize, nextKey, serverHost, serverPort);
+        return new AccessLogOutputDTO(convertAccessLogsToDto(accessLogs), expectedSize, nextKey, requestUrl);
     }
 
     private List<AccessLogDTO> convertAccessLogsToDto(List<AccessLog> accessLogs) {

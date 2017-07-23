@@ -11,7 +11,7 @@
         <result column="referrer" property="referrer"/>
         <result column="message" property="message"/>
         <result column="log_datetime" property="logDateTime"/>
-        <result column="inserted_at" property="insertedAt" typeHandler="io.falcon.assessment.config.DateTimeTypeHandler"/>
+        <result column="inserted_at" property="insertedAt" typeHandler="io.falcon.assessment.config.mybatis.DateTimeTypeHandler"/>
     </resultMap>
 
     <insert id="insertAll" parameterType="java.util.List">

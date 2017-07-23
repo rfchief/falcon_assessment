@@ -30,31 +30,34 @@ public class AccessLogService {
     }
 
     public AccessLogOutputDTO getAccessLogsByRequest(String request,
-                                                           int offset,
-                                                           int size,
-                                                           SortType sortType) {
+                                                     int offset,
+                                                     int size,
+                                                     SortType sortType,
+                                                     String requestUrl) {
         if(StringUtils.isEmpty(request))
             return new AccessLogOutputDTO();
 
         List<AccessLog> accessLogs = accessLogRepository.findAllByRequest(request, offset, size + 1, sortType);
-        return accessLogOutputDtoGenerator.generateWith(accessLogs, size);
+        return accessLogOutputDtoGenerator.generateWith(accessLogs, size, requestUrl);
     }
 
     public AccessLogOutputDTO getAccessLogsByLogDateTime(Date logDateTime,
                                                          int offset,
                                                          int size,
-                                                         SortType sortType) {
+                                                         SortType sortType,
+                                                         String requestUrl) {
 
         List<AccessLog> accessLogs = accessLogRepository.findAllByDateAfterThan(new DateTime(logDateTime), offset, size + 1, sortType);
-        return accessLogOutputDtoGenerator.generateWith(accessLogs, size);
+        return accessLogOutputDtoGenerator.generateWith(accessLogs, size, requestUrl);
     }
 
     public AccessLogOutputDTO getAccessLogsBySeq(int seq,
                                                  int offset,
-                                                 int size) {
+                                                 int size,
+                                                 String requestUrl) {
 
-        List<AccessLog> accessLogs = accessLogRepository.findAllBySeqAfterThan(seq, offset, size + 1);
-        return accessLogOutputDtoGenerator.generateWith(accessLogs, size);
+        List<AccessLog> accessLogs = accessLogRepository.findAllBySeqAfterThan(seq, calculateOffset(offset, size), size + 1);
+        return accessLogOutputDtoGenerator.generateWith(accessLogs, size, requestUrl);
     }
 
     public void saveAccessLog(AccessLogDTO accessLogDTO) {
@@ -98,6 +101,10 @@ public class AccessLogService {
         accessLog.setLogDateTime(new DateTime(accessLogDTO.getLogDateTime()));
 
         return accessLog;
+    }
+
+    private int calculateOffset(int offset, int size) {
+        return offset * size;
     }
 
 }

@@ -107,6 +107,9 @@ public class MockAccessLogRepository implements AccessLogRepository {
         if(sort == SortType.DESCENDING) {
             temp = Lists.reverse(repository).subList(offset, repository.size());
         } else {
+            if(offset > repository.size())
+                return Lists.newArrayList();
+
             temp = repository.subList(offset, repository.size());
         }
         return temp;

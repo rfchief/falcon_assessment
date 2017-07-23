@@ -1,7 +1,6 @@
-package io.falcon.assessment.config;
+package io.falcon.assessment.config.mybatis;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,7 +15,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @MapperScan(basePackages = "io.falcon.assessment.repository", sqlSessionFactoryRef="falconSqlSessionFactory")

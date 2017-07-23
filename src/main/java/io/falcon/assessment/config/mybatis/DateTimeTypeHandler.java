@@ -1,4 +1,4 @@
-package io.falcon.assessment.config;
+package io.falcon.assessment.config.mybatis;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;

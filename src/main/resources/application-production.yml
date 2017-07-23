@@ -5,5 +5,19 @@
 spring:
   profiles: production
 
+datasource:
+  url: jdbc:mysql://127.0.0.1:3306/falcon?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+  username: falcon
+  password: falcon
+  driverClassName: org.mariadb.jdbc.Driver
+  validation-query: SELECT 1
+  max-active: 10
+  max-idle: 2
+  min-idle: 0
+
+server:
+  host: localhost
+  port: 8080
+
 logging:
   config: classpath:logback-production.xml

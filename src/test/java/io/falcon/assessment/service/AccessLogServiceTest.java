@@ -2,7 +2,6 @@ package io.falcon.assessment.service;
 
 import io.falcon.assessment.component.AccessLogOutputDtoGenerator;
 import io.falcon.assessment.enums.SortType;
-import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.model.dto.AccessLogDTO;
 import io.falcon.assessment.model.dto.AccessLogOutputDTO;
 import io.falcon.assessment.repository.AccessLogRepository;
@@ -26,11 +25,13 @@ import static org.hamcrest.CoreMatchers.nullValue;
 public class AccessLogServiceTest {
 
     private AccessLogService service;
+    private String requestUrl;
 
     @Before
     public void setup() throws IOException {
+        requestUrl = "http://localhost:8080/falcon";
         AccessLogRepository accessLogRepository = createAndInitializeMockRepository();
-        this.service = new MockAccessLogService(accessLogRepository, new AccessLogOutputDtoGenerator("localhost", "8080"));
+        this.service = new MockAccessLogService(accessLogRepository, new AccessLogOutputDtoGenerator());
     }
 
     private MockAccessLogRepository createAndInitializeMockRepository() throws IOException {
@@ -53,7 +54,7 @@ public class AccessLogServiceTest {
         SortType sortType = SortType.ASCENDING;
 
         //when
-        AccessLogOutputDTO actual = service.getAccessLogsByRequest(emptyRequest, offset, size, sortType);
+        AccessLogOutputDTO actual = service.getAccessLogsByRequest(emptyRequest, offset, size, sortType, requestUrl);
 
         //then
         Assert.assertThat(actual, is(notNullValue()));
@@ -69,7 +70,7 @@ public class AccessLogServiceTest {
         SortType sortType = SortType.ASCENDING;
 
         //when
-        AccessLogOutputDTO actual = service.getAccessLogsByRequest(request, offset, size, sortType);
+        AccessLogOutputDTO actual = service.getAccessLogsByRequest(request, offset, size, sortType, requestUrl);
 
         //then
         Assert.assertThat(actual, is(notNullValue()));
@@ -88,7 +89,7 @@ public class AccessLogServiceTest {
         SortType sortType = SortType.ASCENDING;
 
         //when
-        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(logDateTime.toDate(), offset, size, sortType);
+        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(logDateTime.toDate(), offset, size, sortType, requestUrl);
 
         //then
         Assert.assertThat(actual, is(notNullValue()));
@@ -105,7 +106,7 @@ public class AccessLogServiceTest {
         int startSeq = 4;
 
         //when
-        AccessLogOutputDTO actual = service.getAccessLogsBySeq(startSeq, offset, size);
+        AccessLogOutputDTO actual = service.getAccessLogsBySeq(startSeq, offset, size, requestUrl);
 
         //then
         Assert.assertThat(actual, is(notNullValue()));
@@ -121,7 +122,7 @@ public class AccessLogServiceTest {
         service.saveAccessLog(inputAccessLog);
 
         //then
-        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(inputAccessLog.getLogDateTime(), 0, 1, SortType.ASCENDING);
+        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(inputAccessLog.getLogDateTime(), 0, 1, SortType.ASCENDING, requestUrl);
         Assert.assertThat(actual, is(notNullValue()));
         for (AccessLogDTO dto : actual.getAccessLogs()) {
             Assert.assertThat(dto.getRequest(), is(inputAccessLog.getRequest()));

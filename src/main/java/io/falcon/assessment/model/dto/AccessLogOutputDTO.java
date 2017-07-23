@@ -1,5 +1,6 @@
 package io.falcon.assessment.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Iterables;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
@@ -21,15 +22,15 @@ public class AccessLogOutputDTO implements Serializable{
     public AccessLogOutputDTO(List<AccessLogDTO> accessLogs,
                               int size,
                               int nextKey,
-                              String serverHost,
-                              String serverPort) {
+                              String requestUrl) {
         if(nextKey > 0)
-            this.nextUrl = "http://" + serverHost + ":" + serverPort +"?seq=" + nextKey + "&size=" + size;
+            this.nextUrl = requestUrl + "?seq=" + nextKey + "&size=" + size;
 
         this.size = size;
         this.accessLogs = accessLogs;
     }
 
+    @JsonIgnore
     public int getCountOfAccessLogs() {
         if(CollectionUtils.isEmpty(accessLogs))
             return 0;
