@@ -28,7 +28,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("dev")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"server.port=0", "server.host=localhost"})
 public class AccessLogRepositoryIntegrationTest {
 
     @Autowired

@@ -21,8 +21,8 @@ public class AccessLogOutputDtoGenerator {
     private final String serverPort;
 
     @Autowired
-    public AccessLogOutputDtoGenerator(@Value("${local.server.host}") String serverHost,
-                                       @Value("${local.server.port}") String serverPort) {
+    public AccessLogOutputDtoGenerator(@Value("${server.host}") String serverHost,
+                                       @Value("${server.port}") String serverPort) {
         this.serverHost = serverHost;
         this.serverPort = serverPort;
     }

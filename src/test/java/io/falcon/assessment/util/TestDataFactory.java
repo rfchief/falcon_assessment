@@ -33,6 +33,11 @@ public class TestDataFactory {
         return objectMapper.readValue(jsonString, AccessLogDTO.class);
     }
 
+    public static List<AccessLogDTO> getAccessLogDTOList(String filePath) throws IOException {
+        String jsonString = fileReader.getFromStringFile(filePath);
+        return Lists.newArrayList(objectMapper.readValue(jsonString, AccessLogDTO[].class));
+    }
+
     private static AccessLog convertDtoToAccessLog(AccessLogDTO accessLogDto, int index) {
         AccessLog accessLog = new AccessLog();
         accessLog.setSeq(index);
