@@ -6,6 +6,7 @@ import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.model.dto.AccessLogDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -65,5 +66,9 @@ public class TestDataFactory {
 
     public static String getRequestString(String filePath) {
         return fileReader.getFromStringFile(filePath);
+    }
+
+    public static DateTime getLogDateTime(String filePath) {
+        return DateTime.parse(fileReader.getFromStringFile(filePath), DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

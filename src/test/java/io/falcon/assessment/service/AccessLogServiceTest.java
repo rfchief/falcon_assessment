@@ -9,14 +9,18 @@ import io.falcon.assessment.repository.mock.MockAccessLogRepository;
 import io.falcon.assessment.service.mock.MockAccessLogService;
 import io.falcon.assessment.util.TestDataFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 public class AccessLogServiceTest {
 
@@ -73,6 +77,44 @@ public class AccessLogServiceTest {
         Assert.assertThat(actual.getNextUrl(), is(notNullValue()));
         for (AccessLogDTO accessLog : actual.getAccessLogs())
             Assert.assertThat(accessLog.getRequest(), is(request));
+    }
+
+    @Test
+    public void givenDatetimeAndPageParameter_whenGetAccessLogsByLogDateTime_thenReturnAccessLogsTest() {
+        //given
+        DateTime logDateTime = TestDataFactory.getLogDateTime(System.getProperty("user.dir") + "/src/test/resources/data/input/inputLogDatetimeString.txt");
+        int offset = 0;
+        int size = 1;
+        SortType sortType = SortType.ASCENDING;
+
+        //when
+        AccessLogOutputDTO actual = service.getAccessLogsByLogDateTime(logDateTime, offset, size, sortType);
+
+        //then
+        Assert.assertThat(actual, is(notNullValue()));
+        Assert.assertThat(actual.getNextUrl(), is(notNullValue()));
+        for (AccessLogDTO accessLog : actual.getAccessLogs())
+            Assert.assertThat(isValid(logDateTime.toDate(), accessLog.getLogDateTime()), is(true));
+    }
+
+    @Test
+    public void givenSeqAndPageParameter_whenGetAccessLogsBySeq_thenReturnAccessLogsTest() {
+        //given
+        int offset = 2;
+        int size = 10;
+        int startSeq = 4;
+
+        //when
+        AccessLogOutputDTO actual = service.getAccessLogsBySeq(startSeq, offset, size);
+
+        //then
+        Assert.assertThat(actual, is(notNullValue()));
+        Assert.assertThat(actual.getNextUrl(), is(nullValue()));
+    }
+
+    private boolean isValid(Date expected, Date actual) {
+        return DateUtils.isSameDay(actual, expected)
+                || actual.after(expected);
     }
 
 }
