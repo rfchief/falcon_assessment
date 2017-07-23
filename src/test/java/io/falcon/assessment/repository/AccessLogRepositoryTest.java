@@ -9,7 +9,7 @@ import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.repository.mock.MockAccessLogRepository;
 import io.falcon.assessment.util.TestDataFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -123,7 +123,7 @@ public class AccessLogRepositoryTest {
         int offset = 0;
         int limit = 1;
         SortType sort = SortType.ASCENDING;
-        LocalDateTime logDateTime = Iterables.getFirst(initialAccessLogs, new AccessLog()).getLogDateTime();
+        DateTime logDateTime = Iterables.getFirst(initialAccessLogs, new AccessLog()).getLogDateTime();
 
         //when
         List<AccessLog> actual = repository.findAllByDateAfterThan(logDateTime, offset, limit, sort);
@@ -131,12 +131,12 @@ public class AccessLogRepositoryTest {
         //then
         Assert.assertThat(actual, is(notNullValue()));
         for (AccessLog accessLog : actual) {
-            LocalDateTime actualLogDateTime = accessLog.getLogDateTime();
+            DateTime actualLogDateTime = accessLog.getLogDateTime();
             Assert.assertThat(isValidLogDateTime(logDateTime, actualLogDateTime), is(true));
         }
     }
 
-    private boolean isValidLogDateTime(LocalDateTime timestamp, LocalDateTime actualTimestamp) {
+    private boolean isValidLogDateTime(DateTime timestamp, DateTime actualTimestamp) {
         return actualTimestamp.equals(timestamp) || actualTimestamp.isAfter(timestamp);
     }
 

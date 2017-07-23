@@ -43,8 +43,11 @@
     <logger name="org.apache.commons">
         <level value="ERROR"/>
     </logger>
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder">
+    <logger name="org.mybatis">
         <level value="TRACE"/>
+    </logger>
+    <logger name="io.falcon.assessment.repository.AccessLogRepository">
+        <level value="DEBUG"/>
     </logger>
 
     <root level="INFO">

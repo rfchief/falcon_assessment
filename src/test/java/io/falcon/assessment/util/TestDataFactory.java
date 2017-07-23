@@ -10,6 +10,7 @@ import org.joda.time.LocalDateTime;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,8 +38,8 @@ public class TestDataFactory {
         accessLog.setMethod(accessLogDto.getMethod());
         accessLog.setReferrer(accessLogDto.getReferrer());
         accessLog.setMessage(accessLogDto.getMessage());
-        accessLog.setLogDateTime(new DateTime(accessLogDto.getLogDateTime()).toLocalDateTime());
-        accessLog.setInsertedAt(new LocalDateTime());
+        accessLog.setLogDateTime(new DateTime(accessLogDto.getLogDateTime()));
+        accessLog.setInsertedAt(new DateTime());
 
         return accessLog;
     }

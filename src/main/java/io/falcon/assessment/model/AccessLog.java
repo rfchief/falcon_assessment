@@ -1,7 +1,9 @@
 package io.falcon.assessment.model;
 
 import lombok.Data;
-import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
+
+import java.sql.Timestamp;
 
 @Data
 public class AccessLog {
@@ -11,19 +13,17 @@ public class AccessLog {
     private String response;
     private String referrer;
     private String message;
-    private LocalDateTime logDateTime;
-    private LocalDateTime insertedAt;
+    private DateTime logDateTime;
+    private DateTime insertedAt;
 
     @Override
     public String toString() {
-        return "Seq : " + seq
-                + ", Request : " + request
+        return  "Request : " + request
                 + ", Method : " + method
                 + ", Response : " + response
                 + ", Referrer : " + referrer
                 + ", Message : " + message
-                + ", LogDateTime : " + logDateTime
-                + ", InsertedAt : " + insertedAt;
+                + ", LogDateTime : " + logDateTime;
     }
 
 }

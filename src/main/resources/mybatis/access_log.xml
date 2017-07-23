@@ -3,6 +3,17 @@
 
 <mapper namespace="io.falcon.assessment.repository.AccessLogRepository">
 
+    <resultMap type="io.falcon.assessment.model.AccessLog" id="accessLog">
+        <id column="seq" property="seq"/>
+        <result column="request" property="request"/>
+        <result column="method" property="method"/>
+        <result column="response" property="response"/>
+        <result column="referrer" property="referrer"/>
+        <result column="message" property="message"/>
+        <result column="log_datetime" property="logDateTime"/>
+        <result column="inserted_at" property="insertedAt" typeHandler="io.falcon.assessment.config.DateTimeTypeHandler"/>
+    </resultMap>
+
     <insert id="insertAll" parameterType="java.util.List">
         INSERT
           INTO falcon.access_log (
@@ -14,27 +25,27 @@
                log_datetime)
         VALUES
         <foreach collection="accessLogs" item="element" index="index" open="(" separator="),("  close=")">
-            <![CDATA['3{element.request}',
-                     '${element.method}',
-                     '${element.response}',
-                     '${element.referrer}',
-                     '${element.message}',
-                     '${element.logDateTime}']]>
+              #{element.request, jdbcType=VARCHAR},
+              #{element.method, jdbcType=VARCHAR},
+              #{element.response, jdbcType=VARCHAR},
+              #{element.referrer, jdbcType=VARCHAR},
+              #{element.message, jdbcType=VARCHAR},
+              #{element.logDateTime}
         </foreach>
     </insert>
 
-    <select id="findAll" resultType="io.falcon.assessment.model.AccessLog" >
+    <select id="findAll" resultMap="accessLog" >
         SELECT seq
              , request
              , method
              , response
              , referrer
              , message
-             , log_datetime AS logDateTime
-             , inserted_at AS insertedAt
+             , log_datetime
+             , inserted_at
           FROM falcon.access_log
          ORDER
-            BY seq ASC
+            BY seq ${sort.sortType}
          LIMIT #{offset}, #{limit}
     </select>
 
@@ -42,6 +53,11 @@
         TRUNCATE
            TABLE falcon.access_log
     </delete>
+
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT COUNT(seq)
+          FROM falcon.access_log
+    </select>
 
 
 </mapper>
