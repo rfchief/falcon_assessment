@@ -6,11 +6,9 @@ import io.falcon.assessment.model.AccessLog;
 import io.falcon.assessment.model.dto.AccessLogDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,14 +23,15 @@ public class TestDataFactory {
 
         if(isValid(jsonString)) {
             AccessLogDTO accessLogDto = objectMapper.readValue(jsonString, AccessLogDTO.class);
-            return convertDtoToAccessLog(accessLogDto);
+            return convertDtoToAccessLog(accessLogDto, 1);
         }
 
         return null;
     }
 
-    private static AccessLog convertDtoToAccessLog(AccessLogDTO accessLogDto) {
+    private static AccessLog convertDtoToAccessLog(AccessLogDTO accessLogDto, int index) {
         AccessLog accessLog = new AccessLog();
+        accessLog.setSeq(index);
         accessLog.setRequest(accessLogDto.getRequest());
         accessLog.setResponse(accessLogDto.getResponse());
         accessLog.setMethod(accessLogDto.getMethod());
@@ -50,8 +49,9 @@ public class TestDataFactory {
         if(isValid(jsonString)) {
             AccessLogDTO[] elements = objectMapper.readValue(jsonString, AccessLogDTO[].class);
             List<AccessLog> accessLogs = Lists.newArrayList();
+            int index = 0;
             for (AccessLogDTO element : elements)
-                accessLogs.add(convertDtoToAccessLog(element));
+                accessLogs.add(convertDtoToAccessLog(element, ++index));
 
             return accessLogs;
         }
@@ -61,5 +61,9 @@ public class TestDataFactory {
 
     private static boolean isValid(String jsonString) {
         return StringUtils.isNotEmpty(jsonString);
+    }
+
+    public static String getRequestString(String filePath) {
+        return fileReader.getFromStringFile(filePath);
     }
 }

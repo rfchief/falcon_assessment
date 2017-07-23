@@ -5,7 +5,7 @@ import io.falcon.assessment.service.AccessLogService;
 
 public class MockAccessLogService extends AccessLogService {
     public MockAccessLogService(AccessLogRepository accessLogRepository) {
-        super(accessLogRepository);
+        super(accessLogRepository, "localhost", "8080");
     }
 
 }
