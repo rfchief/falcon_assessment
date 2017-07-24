@@ -33,7 +33,7 @@ public class AccessLogWebSocketController {
     @SendTo("/falcon/show/logs")
     public AccessLogOutputDTO getAccessLogsBySeq (@Payload ParameterMessage parameterMessage) {
         return accessLogService.getAccessLogsBySeq(parameterMessage.getSeq(),
-                                            parameterMessage.getOffset(),
+                                            0,
                                             checkAndGetPageSize(parameterMessage.getSize()),
                                             getRequestUrl());
     }
@@ -49,6 +49,6 @@ public class AccessLogWebSocketController {
     }
 
     private String getRequestUrl() {
-        return "http://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + httpServletRequest.getRequestURI();
+        return "http://localhost:8080/key/seq";
     }
 }

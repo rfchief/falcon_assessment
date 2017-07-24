@@ -48,6 +48,9 @@ public class AccessLogService {
                                                          String requestUrl) {
 
         List<AccessLog> accessLogs = accessLogRepository.findAllByDateAfterThan(new DateTime(logDateTime), offset, size + 1, sortType);
+        for (AccessLog accessLog : accessLogs) {
+            System.out.println(accessLog);
+        }
         return accessLogOutputDtoGenerator.generateWith(accessLogs, size, requestUrl);
     }
 
@@ -55,7 +58,6 @@ public class AccessLogService {
                                                  int offset,
                                                  int size,
                                                  String requestUrl) {
-
         List<AccessLog> accessLogs = accessLogRepository.findAllBySeqAfterThan(seq, calculateOffset(offset, size), size + 1);
         return accessLogOutputDtoGenerator.generateWith(accessLogs, size, requestUrl);
     }
