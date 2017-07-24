@@ -20,7 +20,3 @@ page:
 
 logging:
   config: classpath:logback-dev.xml
-
-server:
-  host: localhost
-  port: 8080

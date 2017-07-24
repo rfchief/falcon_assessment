@@ -15,9 +15,8 @@ datasource:
   max-idle: 2
   min-idle: 0
 
-server:
-  host: localhost
-  port: 8080
+page:
+  max.size: 50
 
 logging:
   config: classpath:logback-production.xml

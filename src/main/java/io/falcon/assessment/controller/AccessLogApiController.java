@@ -15,16 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/falcon")
-public class AccessLogController {
+public class AccessLogApiController {
 
     private final AccessLogService accessLogService;
     private final HttpServletRequest httpServletRequest;
     private final int maxSize;
 
     @Autowired
-    public AccessLogController(AccessLogService accessLogService,
-                               HttpServletRequest httpServletRequest,
-                               @Value("${page.max.size}") int maxSize) {
+    public AccessLogApiController(AccessLogService accessLogService,
+                                  HttpServletRequest httpServletRequest,
+                                  @Value("${page.max.size}") int maxSize) {
         this.accessLogService = accessLogService;
         this.httpServletRequest = httpServletRequest;
         this.maxSize = maxSize;
