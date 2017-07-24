@@ -46,11 +46,7 @@ public class AccessLogService {
                                                          int size,
                                                          SortType sortType,
                                                          String requestUrl) {
-
         List<AccessLog> accessLogs = accessLogRepository.findAllByDateAfterThan(new DateTime(logDateTime), offset, size + 1, sortType);
-        for (AccessLog accessLog : accessLogs) {
-            System.out.println(accessLog);
-        }
         return accessLogOutputDtoGenerator.generateWith(accessLogs, size, requestUrl);
     }
 
