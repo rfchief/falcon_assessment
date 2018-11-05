@@ -1,7 +1,7 @@
 # falcon_assessment
 Test project for assessment from Falcon
 
-## Tasks-000
+## Tasks
 * The task is to implement a data processing pipeline in the cloud.
   * Set up a running environment aligned with the technologies mentioned below
   * A Readme file containing information you deem useful for someone getting to know your code and want to try the system out
