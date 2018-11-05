@@ -2,7 +2,7 @@
 Test project for assessment from Falcon
 
 ## Tasks
-* The task is to implement [testssddddddd] a data processing pipeline in the cloud.
+* The task is to implement a data processing pipeline in the cloud.
   * Set up a running environment aligned with the technologies mentioned below
   * A Readme file containing information you deem useful for someone getting to know your code and want to try the system out
   * Develop the application in Java 8, using either DropWizard or Spring Boot as the foundation
@@ -22,7 +22,7 @@ Test project for assessment from Falcon
 * Also I made a simple page for retrieving data, URL is 'http://localhost:8080/falcon/view'
 * In this page I support using STOMP protocol for retrieving whole data
 
-## Requirements-22-33
+## Requirements-22-33-44
 * python >= 2.6
 * Java 8
 * Tomcat >= 7
